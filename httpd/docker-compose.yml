@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  httpd:
+    build:
+      context: ./httpd
+    ports:
+      - '${HTTPD_PORT:-81}:80'
+    volumes:
+      - ./httpd/sites:/usr/local/apache2/conf/sites:ro
+      - ${LOG_PATH:-./log}/httpd:/usr/local/apache2/logs:delegated
+      - ${APP_CODE_PATH:-.}:/var/www:ro

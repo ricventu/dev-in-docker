@@ -1,9 +1,9 @@
 version: "3.8"
 
 services:
-  php:
+  php-fpm:
     build:
-      context: ./php
+      context: ./php-fpm
       args:
         - PHP_VERSION=${PHP_VERSION:-7.3}
         - INSTALL_MONGO=${INSTALL_MONGO:-false}
