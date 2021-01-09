@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - '${NGINX_PORT_HTTP:-80}:80'
+      - '${NGINX_PORT_HTTPS:-443}:443'
+    volumes:
+      - ./nginx/sites:/etc/nginx/conf.d:ro
+      - ${LOG_PATH:-./log}/nginx:/var/log/nginx:delegated
+      - ${APP_CODE_PATH:-../src}:/var/www:ro
