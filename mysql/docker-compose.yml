@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  mysql:
+    build:
+      context: ./mysql
+      args:
+        - MYSQL_GENERAL_LOG=${MYSQL_GENERAL_LOG:-false}
+    ports:
+      - '${MYSQL_PORT:-3306}:3306'
+    environment:
+      - MYSQL_VERSION=${MYSQL_VERSION:-5.7}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-secret}
+    volumes:
+      - mysql:/var/lib/mysql
+      - ${LOG_PATH:-./log}/mysql:/var/log/mysql:delegated
+
+volumes:
+  mysql:
