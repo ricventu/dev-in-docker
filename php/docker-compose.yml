@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  php:
+    build:
+      context: ./php
+      args:
+        - PHP_VERSION=${PHP_VERSION:-7.3}
+        - INSTALL_MONGO=${INSTALL_MONGO:-false}
+        - INSTALL_XDEBUG=${INSTALL_XDEBUG:-true}
+        - INSTALL_MYSQLI=${INSTALL_MYSQLI:-false}
+        - INSTALL_GETTEXT=${INSTALL_GETTEXT:-false}
+        - INSTALL_GD=${INSTALL_GD:-true}
+        - INSTALL_SYSVSEM=${INSTALL_SYSVSEM:-false}
+        - INSTALL_COMPOSER=${INSTALL_COMPOSER:-true}
+        - INSTALL_GIT=${INSTALL_GIT:-true}
+        - INSTALL_PYTHON=${INSTALL_PYTHON:-false}
+
+    environment:
+      - PHP_VERSION=${PHP_VERSION:-7.3}
+    volumes:
+      - ${APP_CODE_PATH:-.}:/var/www:cached
