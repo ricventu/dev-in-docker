@@ -1,0 +1,4 @@
+services:
+  php-fpm:
+    links: 
+      - "httpd:my.host.test"
