@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  mongo:
+    image: "mongo:${MONGO_VERSION:-latest}"
+    ports:
+      - '${MONGO_PORT:-27017}:27017'
+    volumes:
+      - mongo:/data/db
+      - mongo_config:/data/configdb
+
+volumes:
+  mongo:
+  mongo_config:
