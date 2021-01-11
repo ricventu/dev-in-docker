@@ -28,7 +28,7 @@ did up -d --build
 Add to `~.bashrc` or `.zshrc`:
 ```
 function didphp() {
-    did run --rm -v $(pwd):/workdir/ -w /workdir/ php-fpm php $*
+    did run --rm -v $(pwd):/workdir/ -w /workdir/ php7.3 php $*
 }
 ```
 
@@ -43,7 +43,7 @@ didphp -v
 Add to `~.bashrc` or `.zshrc`:
 ```
 function didssh() {
-    did exec php-fpm bash
+    did exec php7.3 bash
 }
 ```
 

@@ -1,4 +1,4 @@
 services:
-  php-fpm:
+  php7.3:
     links: 
       - "httpd:my.host.test"
