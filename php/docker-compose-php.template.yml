@@ -1,11 +1,11 @@
 version: "3.8"
 
 services:
-  php-fpm:
+  php__PHP_VERSION__:
     build:
-      context: ./php-fpm
+      context: ./php
       args:
-        - PHP_VERSION=${PHP_VERSION:-7.3}
+        - PHP_VERSION=__PHP_VERSION__
         - INSTALL_MONGO=${INSTALL_MONGO:-false}
         - INSTALL_XDEBUG=${INSTALL_XDEBUG:-true}
         - INSTALL_MYSQLI=${INSTALL_MYSQLI:-false}
@@ -17,6 +17,6 @@ services:
         - INSTALL_PYTHON=${INSTALL_PYTHON:-false}
 
     environment:
-      - PHP_VERSION=${PHP_VERSION:-7.3}
+      - PHP_VERSION=__PHP_VERSION__
     volumes:
       - ${APP_CODE_PATH:-.}:/var/www:cached

@@ -11,5 +11,4 @@ services:
       - ./nginx/sites:/etc/nginx/conf.d:ro
       - ${LOG_PATH:-./log}/nginx:/var/log/nginx:delegated
       - ${APP_CODE_PATH:-../src}:/var/www:ro
-    depends_on:
-      - php-fpm
+
