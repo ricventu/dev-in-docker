@@ -8,7 +8,7 @@ COMPOSE_FILE=docker-compose.base.yml
 [ "$ENABLE_MONGO" = "false" ] || COMPOSE_FILE=${COMPOSE_FILE}:mongo/docker-compose.yml
 [ "$ENABLE_NGINX" = "false" ] || COMPOSE_FILE=${COMPOSE_FILE}:nginx/docker-compose.yml
 [ "$ENABLE_HTTPD" = "false" ] || COMPOSE_FILE=${COMPOSE_FILE}:httpd/docker-compose.yml
-[ "$REDIS_PORT" = "false" ] || COMPOSE_FILE=${COMPOSE_FILE}:redis/docker-compose.yml
+[ "$ENABLE_REDIS" = "false" ] || COMPOSE_FILE=${COMPOSE_FILE}:redis/docker-compose.yml
 
 if [ ! "$ENABLE_PHP73" = "false" ]; then
   sed "s/__PHP_VERSION__/7.3/g" php/docker-compose-php.template.yml > php/docker-compose-php73.yml
