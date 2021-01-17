@@ -78,17 +78,10 @@ RUN if [ ${INSTALL_GIT} = true ]; then \
     apt-get install -y git \
 ;fi
 
-COPY pip_install.sh /usr/local/
 ARG INSTALL_PYTHON=false
 RUN if [ ${INSTALL_PYTHON} = true ]; then \
-  apt-get install -y python python-pip && \
-  bash /usr/local/pip_install.sh \
+  apt-get install -y python python-pip \
 ;fi
-
-# CLEANUP
-RUN apt-get -y autoremove \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # CONFIG FILE
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
@@ -106,3 +99,14 @@ RUN sed -i \
 RUN sed -i \
   -e "s/pm\.max_children.*/pm.max_children=100/" \
   "$PHP_INI_DIR/../php-fpm.d/www.conf"
+
+
+COPY ./startup.d /opt/startup.d
+RUN for file in "/opt/startup.d/*.sh" ; do \
+      bash $file \
+    ;done
+
+# CLEANUP
+RUN apt-get -y autoremove \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
