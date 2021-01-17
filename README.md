@@ -8,7 +8,11 @@ Simple development environment for [Docker](https://www.docker.com/), using only
 git clone git@github.com:ricventu/dev-in-docker.git
 ```
 
-## 2. Add command line
+## 2. Edit config
+
+Copy `.env.example` to `.env` and edit variables as your need
+
+## 3. Add command line
 
 Add to `~.bashrc` or `.zshrc`:
 
