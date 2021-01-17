@@ -22,9 +22,10 @@ if [ ! "$ENABLE_NGINX" = "false" ]; then
   [ -e php/docker-compose.nginx.yml ] && COMPOSE_FILE=${COMPOSE_FILE}:php/docker-compose.nginx.yml
 fi
 
-
 [ -f docker-compose.override.yml ] && COMPOSE_FILE=${COMPOSE_FILE}:docker-compose.override.yml
 
 export COMPOSE_FILE=$COMPOSE_FILE
+
+[ "$EXPORT_CONF" = "false" ] || docker-compose config > docker-compose.yml
 
 docker-compose $*
