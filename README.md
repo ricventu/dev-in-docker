@@ -1,12 +1,14 @@
 # dev-in-docker
 Simple development environment with Docker
 
-Clone this repo
+# Install
+
+## 1. Clone this repo
 ```
 git clone git@github.com:ricventu/dev-in-docker.git
 ```
 
-## Command line
+## 2. Add command line
 
 Add to `~.bashrc` or `.zshrc`:
 
@@ -17,11 +19,30 @@ function did() {
 ```
 where `path/to/dev-in-docker` is the path to dev-in-docker clone
 
-then exec composer commands with `did`
+now you can exec composer commands with `did`
 
 ```
 did up -d --build
 ```
+
+## NGINX
+
+Virtual hosts configurations are located in `nginx/sites`
+
+## HTTPD
+
+Virtual hosts configurations are located in `httpd/sites`
+
+## PHP
+
+You can add install `.sh` scripts to `php/install.d` directory 
+
+
+## LOGS
+
+Logs from containers are bind to `LOG_PATH` dir
+
+## Shortcuts command
 
 ### Add php command line
 
@@ -32,7 +53,7 @@ function didphp() {
 }
 ```
 
-then exec php commands with `didphp`
+Now you can run php commands with `didphp`
 
 ```
 didphp -v
@@ -47,4 +68,4 @@ function didssh() {
 }
 ```
 
-then run `didssh`
+Now you can connect to php container with `didssh`

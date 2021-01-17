@@ -100,9 +100,8 @@ RUN sed -i \
   -e "s/pm\.max_children.*/pm.max_children=100/" \
   "$PHP_INI_DIR/../php-fpm.d/www.conf"
 
-
-COPY ./startup.d /opt/startup.d
-RUN for file in "/opt/startup.d/*.sh" ; do \
+COPY ./install.d /opt/install.d
+RUN for file in "/opt/install.d/*.sh" ; do \
       bash $file \
     ;done
 
