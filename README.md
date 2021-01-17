@@ -19,7 +19,7 @@ function did() {
 ```
 where `path/to/dev-in-docker` is the path to dev-in-docker clone
 
-now you can exec composer commands with `did`
+now you can exec all docker-composer commands with `did`
 
 ```
 did up -d --build
