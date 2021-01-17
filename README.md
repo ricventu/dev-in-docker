@@ -1,5 +1,5 @@
 # Dev In Docker
-Simple development environment for Docker
+Simple development environment for Docker, using only Docker official images
 
 # Install
 
