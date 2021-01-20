@@ -1,0 +1,18 @@
+<VirtualHost *:80>
+    ServerName vitoadvisor-viessmann.test
+    DocumentRoot /var/www/viessmann/vitoadvisor-server/public
+
+    <Directory /var/www/viessmann/vitoadvisor-server/public>
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    <IfModule mod_proxy_fcgi.c>
+        <FilesMatch ".+\.ph(ar|p|tml)$">
+            SetHandler "proxy:fcgi://php7.3:9000"
+        </FilesMatch>
+    </IfModule>
+
+    ErrorLog logs/vitoadvisor.log
+
+</VirtualHost>

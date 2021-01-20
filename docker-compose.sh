@@ -15,11 +15,13 @@ if [ ! "$ENABLE_PHP73" = "false" ]; then
   COMPOSE_FILE=${COMPOSE_FILE}:php/docker-compose-php73.yml
   cp php/docker-compose-nginx.template.yml php/docker-compose.nginx.yml
   echo "      - php7.3" >> php/docker-compose.nginx.yml
+else
+  [ -f php/docker-compose.nginx.yml ] && rm php/docker-compose.nginx.yml
 fi
 
 if [ ! "$ENABLE_NGINX" = "false" ]; then
   COMPOSE_FILE=${COMPOSE_FILE}:nginx/docker-compose.yml
-  [ -e php/docker-compose.nginx.yml ] && COMPOSE_FILE=${COMPOSE_FILE}:php/docker-compose.nginx.yml
+  [ -f php/docker-compose.nginx.yml ] && COMPOSE_FILE=${COMPOSE_FILE}:php/docker-compose.nginx.yml
 fi
 
 [ -f docker-compose.override.yml ] && COMPOSE_FILE=${COMPOSE_FILE}:docker-compose.override.yml
