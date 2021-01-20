@@ -2,7 +2,10 @@ version: "3.8"
 
 services:
   mongo:
-    image: "mongo:${MONGO_VERSION:-latest}"
+    build: 
+      context: ./mongo
+      args: 
+        - MONGO_VERSION=${MONGO_VERSION:-latest}
     ports:
       - '${MONGO_PORT:-27017}:27017'
     volumes:

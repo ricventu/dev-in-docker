@@ -6,6 +6,7 @@ services:
       context: ./mysql
       args:
         - MYSQL_GENERAL_LOG=${MYSQL_GENERAL_LOG:-false}
+        - MYSQL_VERSION=${MYSQL_VERSION:-5.7}
     ports:
       - '${MYSQL_PORT:-3306}:3306'
     environment:
