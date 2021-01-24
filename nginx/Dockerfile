@@ -7,9 +7,8 @@ RUN apk update \
     && apk add --no-cache curl \
     && apk add --no-cache bash
 
+COPY ./scripts/create-certificate.sh /opt/
 RUN mkdir /etc/nginx/ssl/ && \
-    openssl genrsa -out "/etc/nginx/ssl/default.key" 2048 && \
-    openssl req -new -key "/etc/nginx/ssl/default.key" -out "/etc/nginx/ssl/default.csr" -subj "/CN=default/O=default/C=UK" && \
-    openssl x509 -req -days 365 -in "/etc/nginx/ssl/default.csr" -signkey "/etc/nginx/ssl/default.key" -out "/etc/nginx/ssl/default.crt"
+    bash ./opt/create-certificate.sh default
 
 COPY nginx.conf /etc/nginx/
