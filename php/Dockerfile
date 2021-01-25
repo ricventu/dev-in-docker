@@ -17,6 +17,7 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
       pecl install mongo && \
       docker-php-ext-enable mongo \
     ;fi && \
+    apt-get install libssl-dev && \
     pecl install mongodb && \
     docker-php-ext-enable mongodb \
 ;fi
