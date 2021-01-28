@@ -17,7 +17,7 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
       pecl install mongo && \
       docker-php-ext-enable mongo \
     ;fi && \
-    apt-get install libssl-dev && \
+    apt-get install -y libssl-dev && \
     pecl install mongodb && \
     docker-php-ext-enable mongodb \
 ;fi
@@ -48,6 +48,7 @@ RUN if [ ${INSTALL_MYSQLI} = true ]; then \
 ARG INSTALL_GETTEXT=false
 RUN if [ ${INSTALL_GETTEXT} = true ]; then \
     docker-php-ext-install gettext && docker-php-ext-enable gettext \
+    && apt-get install -y locales \
 ;fi
 
 
