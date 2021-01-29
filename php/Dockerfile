@@ -107,6 +107,8 @@ RUN for file in "/opt/install.d/*.sh" ; do \
       bash $file \
     ;done
 
+COPY ./bashrc /root/.bashrc
+
 # CLEANUP
 RUN apt-get -y autoremove \
     && apt-get clean \
