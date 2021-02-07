@@ -6,6 +6,9 @@ WORKDIR /var/www
 ENV DEBIAN_FRONTEND noninteractive
 # ENV TZ=UTC
 
+RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+RUN pear config-set php_ini "$PHP_INI_DIR/php.ini"
+
 RUN apt-get update
 RUN docker-php-ext-install pdo pdo_mysql
 
@@ -22,22 +25,6 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
     docker-php-ext-enable mongodb \
 ;fi
 
-# XDEBUG
-ARG INSTALL_XDEBUG=true
-RUN if [ ${INSTALL_XDEBUG} = true ]; then \
-  # Install the xdebug extension
-  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-    pecl install xdebug-2.5.5; \
-  else \
-    if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
-      pecl install xdebug-2.9.0; \
-    else \
-      pecl install xdebug; \
-    fi \
-  fi && \
-  docker-php-ext-enable xdebug \
-;fi
-
 # MYSQLI
 ARG INSTALL_MYSQLI=false
 RUN if [ ${INSTALL_MYSQLI} = true ]; then \
@@ -50,7 +37,6 @@ RUN if [ ${INSTALL_GETTEXT} = true ]; then \
     docker-php-ext-install gettext && docker-php-ext-enable gettext \
     && apt-get install -y locales \
 ;fi
-
 
 # GD
 ARG INSTALL_GD=false
@@ -85,9 +71,17 @@ RUN if [ ${INSTALL_PYTHON} = true ]; then \
   apt-get install -y python python-pip \
 ;fi
 
+# XDEBUG
+ARG INSTALL_XDEBUG=true
+RUN if [ ${INSTALL_XDEBUG} = true ]; then \
+  pecl install xdebug \
+  && sed -e "/^zend_extension/d" \
+  && docker-php-ext-enable xdebug \
+;fi
+
 # CONFIG FILE
-COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
-RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+COPY ./xdebug.ini /usr/local/etc/php/conf.d/99-xdebug.ini
+
 
 RUN sed -i \
   -e "s/short_open_tag.*/short_open_tag=On/" \
@@ -110,6 +104,6 @@ RUN for file in "/opt/install.d/*.sh" ; do \
 COPY ./bashrc /root/.bashrc
 
 # CLEANUP
-RUN apt-get -y autoremove \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# RUN apt-get -y autoremove \
+#     && apt-get clean \
+#     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

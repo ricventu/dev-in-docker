@@ -20,3 +20,4 @@ services:
       - PHP_VERSION=__PHP_VERSION__
     volumes:
       - ${APP_CODE_PATH:-.}:/var/www:cached
+      - ${LOG_PATH:-./log}/php__PHP_VERSION__:/var/log/php:delegated

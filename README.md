@@ -1,5 +1,5 @@
 # Dev In Docker
-Simple development environment for [Docker](https://www.docker.com/), using only [Docker official images](https://docs.docker.com/docker-hub/official_images/).
+Simple development environment for [Docker](https://www.docker.com/)
 
 # Install
 
