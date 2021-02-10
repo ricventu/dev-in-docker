@@ -80,30 +80,29 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
 ;fi
 
 # CONFIG FILE
-COPY ./xdebug.ini /usr/local/etc/php/conf.d/99-xdebug.ini
-
+COPY xdebug.ini /usr/local/etc/php/conf.d/99-xdebug.ini
 
 RUN sed -i \
-  -e "s/short_open_tag.*/short_open_tag=On/" \
-  -e "s/display_errors.*/display_errors=Off/" \
-  -e "s/post_max_size.*/post_max_size=1024M/" \
-  -e "s/upload_max_filesize.*/upload_max_filesize=1024M/" \
-  -e "s/memory_limit.*/memory_limit=-1/" \
-  -e "s/max_execution_time.*/max_execution_time=-1/" \
+  -e "s/.*short_open_tag.*/short_open_tag=On/" \
+  -e "s/.*display_errors.*/display_errors=Off/" \
+  -e "s/.*post_max_size.*/post_max_size=1024M/" \
+  -e "s/.*upload_max_filesize.*/upload_max_filesize=1024M/" \
+  -e "s/.*memory_limit.*/memory_limit=-1/" \
+  -e "s/.*max_execution_time.*/max_execution_time=-1/" \
+  -e "s/.*max_input_time.*/max_input_time=-1/" \
+  -e "s/.*max_input_vars.*/max_input_vars=100000/" \
   "$PHP_INI_DIR/php.ini"
 
 RUN sed -i \
   -e "s/pm\.max_children.*/pm.max_children=100/" \
   "$PHP_INI_DIR/../php-fpm.d/www.conf"
 
-COPY ./install.d /opt/install.d
-RUN for file in "/opt/install.d/*.sh" ; do \
-      bash $file \
-    ;done
-
-COPY ./bashrc /root/.bashrc
+COPY install.sh.example install.s[h]  /opt/
+RUN chmod +x /opt/install.sh && /opt/install.sh
 
 # CLEANUP
-# RUN apt-get -y autoremove \
-#     && apt-get clean \
-#     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get -y autoremove \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+COPY ./bashrc /root/.bashrc

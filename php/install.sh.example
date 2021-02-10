@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# Locates
+sed -i -e 's/.*it_IT/it_IT/' /etc/locale.gen
+locale-gen
+
+# pip
+pip install openpyxl
+pip install mysql-connector
+pip install python-dotenv
+
+# apt
+apt-get install -y vim htop
