@@ -98,7 +98,7 @@ RUN sed -i \
   "$PHP_INI_DIR/../php-fpm.d/www.conf"
 
 COPY install.sh.example install.s[h]  /opt/
-RUN chmod +x /opt/install.sh && /opt/install.sh
+RUN [ -f /opt/install.sh ] && chmod +x /opt/install.sh && /opt/install.sh
 
 # CLEANUP
 RUN apt-get -y autoremove \
