@@ -8,10 +8,8 @@ ENV config=/etc/mysql/conf.d/docker.cnf
 ARG MYSQL_GENERAL_LOG=false
 RUN if [ ${MYSQL_GENERAL_LOG} = true ]; then \
         echo 'general_log = 1' >> ${config} \
-    ; else \
-        echo 'general_log = 0' >> ${config} \
-    ; fi && \
-    echo 'general_log_file = /var/log/mysql/mysql.log' >> ${config} 
+        && echo 'general_log_file = /var/log/mysql/mysql.log' >> ${config} \
+    ; fi
 
 RUN echo 'max_allowed_packet = 128MB' >> ${config}
 
