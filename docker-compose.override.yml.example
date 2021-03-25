@@ -2,3 +2,5 @@ services:
   php7.3:
     links: 
       - "httpd:my.host.test"
+    extra_hosts:
+      - "my.host2.test:host-gateway"
