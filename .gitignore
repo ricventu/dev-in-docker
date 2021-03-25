@@ -1,5 +1,5 @@
-.idea
-.env
-log
-docker-compose.yml
-docker-compose.override.yml
+/.idea
+/.env
+/log
+/docker-compose.yml
+/docker-compose.override.yml
