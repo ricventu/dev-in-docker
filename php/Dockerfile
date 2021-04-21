@@ -38,14 +38,8 @@ RUN if [ ${INSTALL_GETTEXT} = true ]; then \
     && apt-get install -y locales \
 ;fi
 
-# GD
-ARG INSTALL_GD=false
-RUN if [ ${INSTALL_GD} = true ]; then \
-    apt-get install -y sendmail libpng-dev && \
-    docker-php-ext-install gd && docker-php-ext-enable gd \
-;fi
-
 RUN apt-get install -y \
+      sendmail \
       unzip \
       libzip-dev \
     && docker-php-ext-install zip
@@ -55,20 +49,35 @@ RUN if [ ${INSTALL_SYSVSEM} = true ]; then \
     docker-php-ext-install sysvsem && docker-php-ext-enable sysvsem \
 ;fi
 
+# GD
+ARG INSTALL_GD=false
+RUN if [ ${INSTALL_GD} = true ]; then \
+    if [ $(php -r "echo PHP_MINOR_VERSION;") = "3" ]; then \
+      apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev libwebp-dev \
+        && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-webp-dir=/usr/include \
+        && docker-php-ext-install -j$(nproc) gd \
+        && docker-php-ext-enable gd \
+    ; else \
+      apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev  libwebp-dev \
+        && docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp \
+        && docker-php-ext-install -j$(nproc) gd \
+        && docker-php-ext-enable gd \
+    ; fi \
+;fi
+
+
 ARG INSTALL_COMPOSER=true
+# RUN if [ ${INSTALL_COMPOSER} = true ]; then \
+#     curl https://getcomposer.org/composer-1.phar --output /usr/bin/composer \
+#     && chmod +x /usr/bin/composer \
+# ;fi
 RUN if [ ${INSTALL_COMPOSER} = true ]; then \
-    curl https://getcomposer.org/composer-1.phar --output /usr/bin/composer \
+    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+    && php -r "if (hash_file('sha384', 'composer-setup.php') === '756890a4488ce9024fc62c56153228907f1545c228516cbf63f885e036d37e9a59d27d63f46af1d4d07ee0f76181c7d3') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
+    && php composer-setup.php \
+    && php -r "unlink('composer-setup.php');" \
+    && mv composer.phar /usr/bin/composer \
     && chmod +x /usr/bin/composer \
-;fi
-
-ARG INSTALL_GIT=true
-RUN if [ ${INSTALL_GIT} = true ]; then \
-    apt-get install -y git \
-;fi
-
-ARG INSTALL_PYTHON=false
-RUN if [ ${INSTALL_PYTHON} = true ]; then \
-  apt-get install -y python python-pip \
 ;fi
 
 # XDEBUG
@@ -97,8 +106,18 @@ RUN sed -i \
   -e "s/pm\.max_children.*/pm.max_children=100/" \
   "$PHP_INI_DIR/../php-fpm.d/www.conf"
 
-COPY install.sh.example install.s[h]  /opt/
-RUN [ -f /opt/install.sh ] && chmod +x /opt/install.sh && /opt/install.sh
+ARG INSTALL_PYTHON=false
+RUN if [ ${INSTALL_PYTHON} = true ]; then \
+  apt-get install -y python python-pip \
+;fi
+
+ARG INSTALL_GIT=true
+RUN if [ ${INSTALL_GIT} = true ]; then \
+    apt-get install -y git \
+;fi
+
+COPY install*.*  /opt/
+RUN [ -f /opt/install.sh ] && chmod +x /opt/install*.* && /opt/install.sh
 
 # CLEANUP
 RUN apt-get -y autoremove \
@@ -106,3 +125,4 @@ RUN apt-get -y autoremove \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY ./bashrc /root/.bashrc
+
