@@ -15,7 +15,9 @@ services:
         - INSTALL_COMPOSER=${INSTALL_COMPOSER:-true}
         - INSTALL_GIT=${INSTALL_GIT:-true}
         - INSTALL_PYTHON=${INSTALL_PYTHON:-false}
-
+        - INSTALL_REDIS=${INSTALL_REDIS:-false}
+    # environment:
+    #       PHP_IDE_CONFIG: "serverName=${COMPOSE_PROJECT_NAME}_php__PHP_VERSION__"
     volumes:
       - ${APP_CODE_PATH:-.}:/var/www:cached
       - ${LOG_PATH:-./log}/php__PHP_VERSION__:/var/log/php:delegated
