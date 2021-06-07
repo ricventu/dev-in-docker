@@ -135,6 +135,8 @@ COPY ./bashrc /root/.bashrc
 RUN echo $(php -r "echo 'export PHP_IDE_CONFIG=\"serverName=php'.PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION.'\"';") >> /root/.bashrc
 RUN echo "export PATH=~/.composer/vendor/bin/:\${PATH}" >> /root/.bashrc
 
+COPY ./vimrc /root/.vimrc
+
 #RUN docker-php-ext-install bcmath 
 #apt install libxslt-dev
 #docker-php-ext-install xsl

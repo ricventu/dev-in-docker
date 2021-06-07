@@ -21,3 +21,4 @@ alias l='ls $LS_OPTIONS -lA'
 alias xphp='php -dxdebug.start_with_request=yes'
 
 alias a='php artisan'
+alias x='xphp artisan'
