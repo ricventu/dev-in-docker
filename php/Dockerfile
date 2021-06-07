@@ -74,17 +74,17 @@ RUN if [ ${INSTALL_REDIS} = true ]; then \
 
 ARG INSTALL_COMPOSER=true
 RUN if [ ${INSTALL_COMPOSER} = true ]; then \
-    curl https://getcomposer.org/composer-1.phar --output /usr/bin/composer \
+    curl https://getcomposer.org/composer-1.phar --output /usr/bin/composer1 \
+    && chmod +x /usr/bin/composer1 \
+;fi
+RUN if [ ${INSTALL_COMPOSER} = true ]; then \
+    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+    && php -r "if (hash_file('sha384', 'composer-setup.php') === '756890a4488ce9024fc62c56153228907f1545c228516cbf63f885e036d37e9a59d27d63f46af1d4d07ee0f76181c7d3') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
+    && php composer-setup.php \
+    && php -r "unlink('composer-setup.php');" \
+    && mv composer.phar /usr/bin/composer \
     && chmod +x /usr/bin/composer \
 ;fi
-# RUN if [ ${INSTALL_COMPOSER} = true ]; then \
-#     php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-#     && php -r "if (hash_file('sha384', 'composer-setup.php') === '756890a4488ce9024fc62c56153228907f1545c228516cbf63f885e036d37e9a59d27d63f46af1d4d07ee0f76181c7d3') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
-#     && php composer-setup.php \
-#     && php -r "unlink('composer-setup.php');" \
-#     && mv composer.phar /usr/bin/composer \
-#     && chmod +x /usr/bin/composer \
-# ;fi
 
 # XDEBUG
 ARG INSTALL_XDEBUG=true
@@ -131,4 +131,14 @@ RUN apt-get -y autoremove \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY ./bashrc /root/.bashrc
+
+RUN echo $(php -r "echo 'export PHP_IDE_CONFIG=\"serverName=php'.PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION.'\"';") >> /root/.bashrc
+RUN echo "export PATH=~/.composer/vendor/bin/:\${PATH}" >> /root/.bashrc
+
+#RUN docker-php-ext-install bcmath 
+#apt install libxslt-dev
+#docker-php-ext-install xsl
+#docker-php-ext-install intl
+#docker-php-ext-install soap
+
 

@@ -3,7 +3,6 @@
 # defaults
 COMPOSE_PROJECT_NAME=did
 APP_CODE_PATH=./
-EXPORT_CONF=true
 
 [ -e .env ] && . .env
 
@@ -44,6 +43,6 @@ fi
 
 export COMPOSE_FILE=$COMPOSE_FILE
 
-[ "$EXPORT_CONF" != "false" ] || docker-compose config > docker-compose.yml
+docker-compose config > docker-compose.yml
 
 docker-compose $*
