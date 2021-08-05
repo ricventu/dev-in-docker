@@ -1,5 +1,8 @@
 FROM nginx:stable-alpine
 
+ENV TZ=Europe/Rome
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 RUN apk update \
     && apk upgrade \
     && apk --update add logrotate \

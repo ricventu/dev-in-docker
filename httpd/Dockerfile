@@ -1,6 +1,7 @@
 FROM httpd:2.4
 
-# to see config: docker-compose run --rm httpd cat /usr/local/apache2/conf/httpd.conf
+ENV TZ=Europe/Rome
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN echo 'Include /usr/local/apache2/conf/sites/*.conf' >> /usr/local/apache2/conf/httpd.conf
 

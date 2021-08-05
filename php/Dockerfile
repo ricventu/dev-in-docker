@@ -4,7 +4,9 @@ FROM php:${PHP_VERSION}-fpm
 WORKDIR /var/www
 
 ENV DEBIAN_FRONTEND noninteractive
-# ENV TZ=UTC
+
+ENV TZ=Europe/Rome
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 RUN pear config-set php_ini "$PHP_INI_DIR/php.ini"
@@ -94,20 +96,6 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
   && docker-php-ext-enable xdebug \
 ;fi
 
-# CONFIG FILE
-COPY xdebug.ini /usr/local/etc/php/conf.d/99-xdebug.ini
-
-RUN sed -i \
-  -e "s/.*short_open_tag.*/short_open_tag=On/" \
-  -e "s/.*display_errors.*/display_errors=Off/" \
-  -e "s/.*post_max_size.*/post_max_size=1024M/" \
-  -e "s/.*upload_max_filesize.*/upload_max_filesize=1024M/" \
-  -e "s/.*memory_limit.*/memory_limit=-1/" \
-  -e "s/.*max_execution_time.*/max_execution_time=-1/" \
-  -e "s/.*max_input_time.*/max_input_time=-1/" \
-  -e "s/.*max_input_vars.*/max_input_vars=100000/" \
-  "$PHP_INI_DIR/php.ini"
-
 RUN sed -i \
   -e "s/pm\.max_children.*/pm.max_children=100/" \
   "$PHP_INI_DIR/../php-fpm.d/www.conf"
@@ -122,6 +110,9 @@ RUN if [ ${INSTALL_GIT} = true ]; then \
     apt-get install -y git \
 ;fi
 
+# Locales
+RUN sed -i -e 's/.*it_IT/it_IT/' /etc/locale.gen && locale-gen
+
 COPY install*.*  /opt/
 RUN [ -f /opt/install.sh ] && chmod +x /opt/install*.* && /opt/install.sh
 
@@ -130,9 +121,11 @@ RUN apt-get -y autoremove \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+COPY php.ini "$PHP_INI_DIR/conf.d/99-php.ini"
+COPY php.ini "$PHP_INI_DIR/../php-fpm.d/99-php.ini"
+
 COPY ./bashrc /root/.bashrc
 
-RUN echo $(php -r "echo 'export PHP_IDE_CONFIG=\"serverName=php'.PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION.'\"';") >> /root/.bashrc
 RUN echo "export PATH=~/.composer/vendor/bin/:\${PATH}" >> /root/.bashrc
 
 COPY ./vimrc /root/.vimrc
