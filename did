@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+COMMAND=$1
+shift
+
+case $COMMAND in
+  'ssh')
+    ./docker-compose.sh exec php7.3 bash
+    ;;
+  'down')
+    ./docker-compose.sh down
+    ;;
+  'stop')
+    ./docker-compose.sh stop
+    ;;
+  'up')
+    ./docker-compose.sh up -d --build
+    ;;
+  *)
+    ./docker-compose.sh $COMMAND $@
+    ;;
+esac

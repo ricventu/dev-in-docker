@@ -4,7 +4,7 @@
 COMPOSE_PROJECT_NAME=did
 APP_CODE_PATH=./
 
-[ -e .env ] && . .env
+[ -e .env ] && source .env
 
 COMPOSE_FILE=docker-compose.base.yml
 
@@ -45,4 +45,5 @@ export COMPOSE_FILE=$COMPOSE_FILE
 
 docker-compose config > docker-compose.yml
 
+export COMPOSE_FILE=
 docker-compose $*
