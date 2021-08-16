@@ -122,18 +122,11 @@ RUN apt-get -y autoremove \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY php.ini "$PHP_INI_DIR/conf.d/99-php.ini"
-COPY php.ini "$PHP_INI_DIR/../php-fpm.d/99-php.ini"
+COPY www.conf "$PHP_INI_DIR/../php-fpm.d/www.conf"
 
 COPY ./bashrc /root/.bashrc
 
 RUN echo "export PATH=~/.composer/vendor/bin/:\${PATH}" >> /root/.bashrc
 
 COPY ./vimrc /root/.vimrc
-
-#RUN docker-php-ext-install bcmath 
-#apt install libxslt-dev
-#docker-php-ext-install xsl
-#docker-php-ext-install intl
-#docker-php-ext-install soap
-
 
