@@ -1,5 +1,6 @@
 /.idea
 /.env
 /log
+/volumes
 /docker-compose.yml
 /docker-compose.override.yml

@@ -9,9 +9,5 @@ services:
     ports:
       - '${MONGO_PORT:-27017}:27017'
     volumes:
-      - mongo:/data/db
-      - mongo_config:/data/configdb
-
-volumes:
-  mongo:
-  mongo_config:
+      - ${VOLUMES_PATH:-./volumes}/mongo:/data/db:delegated
+      - ${VOLUMES_PATH:-./volumes}/mongo_config:/data/configdb:delegated
