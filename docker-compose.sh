@@ -9,6 +9,7 @@ APP_CODE_PATH=./
 COMPOSE_FILE=docker-compose.base.yml
 
 [ "$ENABLE_MYSQL" = "true" ] && COMPOSE_FILE=${COMPOSE_FILE}:mysql/docker-compose.yml
+[ "$ENABLE_MARIADB" = "true" ] && COMPOSE_FILE=${COMPOSE_FILE}:mariadb/docker-compose.yml
 [ "$ENABLE_MONGO" = "true" ] && COMPOSE_FILE=${COMPOSE_FILE}:mongo/docker-compose.yml
 [ "$ENABLE_NGINX" = "true" ] && COMPOSE_FILE=${COMPOSE_FILE}:nginx/docker-compose.yml
 [ "$ENABLE_HTTPD" = "true" ] && COMPOSE_FILE=${COMPOSE_FILE}:httpd/docker-compose.yml

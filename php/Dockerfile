@@ -102,7 +102,7 @@ RUN sed -i \
 
 ARG INSTALL_PYTHON=false
 RUN if [ ${INSTALL_PYTHON} = true ]; then \
-  apt-get install -y python python-pip \
+  apt-get install -y python python3-pip \
 ;fi
 
 ARG INSTALL_GIT=true

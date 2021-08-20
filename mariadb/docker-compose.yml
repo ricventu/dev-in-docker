@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  mariadb:
+    build:
+      context: ./mariadb
+      args:
+        - MARIADB_GENERAL_LOG=${MARIADB_GENERAL_LOG:-false}
+    ports:
+      - '${MARIADB_PORT:-3306}:3306'
+    environment:
+      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD:-secret}
+    volumes:
+      - ${VOLUMES_PATH:-./volumes}/mariadb:/var/lib/mysql:delegated
+      - ${LOG_PATH:-./log}/mariadb:/var/log/mysql:delegated
