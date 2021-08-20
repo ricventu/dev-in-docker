@@ -5,7 +5,7 @@ FROM mysql:${MYSQL_VERSION}
 ENV TZ=Europe/Rome
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-ENV CONFIG_FILE=/etc/mysql/my.cnf
+ENV CONFIG_FILE=/etc/mysql/conf.d/docker.cnf
 
 RUN echo 'max_allowed_packet = 1G' >> ${CONFIG_FILE}
 
