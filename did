@@ -16,6 +16,13 @@ case $COMMAND in
   'up')
     ./docker-compose.sh up -d --build
     ;;
+  'log')
+    case "$1" in
+      'sql'|'mysql')
+        tail -f ./log/mysql/general.log
+        ;;
+    esac
+    ;;
   *)
     ./docker-compose.sh $COMMAND $@
     ;;
