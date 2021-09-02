@@ -43,8 +43,7 @@ fi
 [ -f docker-compose.override.yml ] && COMPOSE_FILE=${COMPOSE_FILE}:docker-compose.override.yml
 
 export COMPOSE_FILE=$COMPOSE_FILE
-
 docker-compose config > docker-compose.yml
 
-export COMPOSE_FILE=
+export COMPOSE_FILE=docker-compose.yml
 docker-compose $*
