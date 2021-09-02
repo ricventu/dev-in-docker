@@ -18,7 +18,7 @@ Add to `~.bashrc` or `.zshrc`:
 
 ```
 function did() {
-    ( cd path/to/dev-in-docker && ./docker-compose.sh $* )
+    ( cd path/to/dev-in-docker && ./did $* )
 }
 ```
 where `path/to/dev-in-docker` is the path to dev-in-docker clone
