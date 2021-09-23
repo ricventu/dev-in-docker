@@ -110,6 +110,14 @@ RUN if [ ${INSTALL_GIT} = true ]; then \
     apt-get install -y git \
 ;fi
 
+
+ARG INSTALL_NODE=true
+RUN if [ ${INSTALL_NODE} = true ]; then \
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash \
+      && export NVM_DIR="$HOME/.nvm" && \. "$NVM_DIR/nvm.sh" \
+      && nvm install 14 && npm install -g yarn \
+;fi
+
 # Locales
 RUN sed -i -e 's/.*it_IT/it_IT/' /etc/locale.gen && locale-gen
 

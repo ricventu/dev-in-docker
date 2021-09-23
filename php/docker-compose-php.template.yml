@@ -14,6 +14,7 @@ services:
         - INSTALL_SYSVSEM=${INSTALL_SYSVSEM:-false}
         - INSTALL_COMPOSER=${INSTALL_COMPOSER:-true}
         - INSTALL_GIT=${INSTALL_GIT:-true}
+        - INSTALL_NODE=${INSTALL_NODE:-true}
         - INSTALL_PYTHON=${INSTALL_PYTHON:-false}
         - INSTALL_REDIS=${INSTALL_REDIS:-false}
     environment:
