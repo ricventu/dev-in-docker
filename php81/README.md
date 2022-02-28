@@ -7,7 +7,7 @@
 function php() {
     docker run --rm --interactive --tty \
         --volume "$PWD":/app \
-        did_php81 php $@
+        did_php81 $@
 }
 ```
 

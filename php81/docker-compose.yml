@@ -4,4 +4,3 @@ services:
   php81:
     build:
       context: .
-    command: php 

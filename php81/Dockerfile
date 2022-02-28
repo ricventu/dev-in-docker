@@ -21,7 +21,7 @@ RUN pecl install -o -f redis \
   && rm -rf /tmp/pear \
   && docker-php-ext-enable redis
 
-ARG INSTALL_COMPOSER=false
+ARG INSTALL_COMPOSER=true
 COPY install-composer.sh  /opt/
 RUN if [ ${INSTALL_COMPOSER} = true ]; then \
     chmod +x /opt/install-composer.sh && /opt/install-composer.sh \

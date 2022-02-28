@@ -1,4 +1,4 @@
 .PHONY: build
 
 build:
-	docker-compose build	
+	COMPOSE_PROJECT_NAME=did docker-compose build	
