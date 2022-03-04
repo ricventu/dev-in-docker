@@ -22,3 +22,17 @@ docker run --rm --interactive --tty \
     -p "8000:8000"
     did_php81 php artisan serve
 ```
+
+## Composer
+
+```
+function composer() {
+    docker run --rm --interactive --tty \
+        --volume "$PWD":/app \
+        did_php81 composer $@
+}
+```
+
+```bash
+$ composer create-project laravel/laravel my-app
+```
