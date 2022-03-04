@@ -20,7 +20,7 @@ $ php --version
 docker run --rm --interactive --tty \
     --volume "$PWD":/app \
     -p "8000:8000" \
-    did_php81 php artisan serve
+    did_php81 php artisan serve --host 0.0.0.0
 ```
 
 ## Composer
