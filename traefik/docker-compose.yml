@@ -1,0 +1,23 @@
+version: '3'
+# https://doc.traefik.io/traefik/getting-started/quick-start/#launch-traefik-with-the-docker-provider
+services:
+  everse-proxy:
+    # The official v2 Traefik docker image
+    image: traefik:v2.6
+    # Enables the web UI and tells Traefik to listen to docker
+    command: --api.insecure=true --providers.docker=true
+    ports:
+      # The HTTP port
+      - "80:80"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8080:8080"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - traefik
+      - default
+
+networks:
+  traefik:
+    name: traefik
