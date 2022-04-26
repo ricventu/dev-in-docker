@@ -4,3 +4,10 @@ services:
   php81:
     build:
       context: .
+    networks:
+      - default
+      - did_traefik
+
+networks:
+  did_traefik:
+    name: did_traefik
