@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  mysql80:
+    container_name: did_mysql80
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-root}
+    networks:
+      - did_traefik
+      - did_mysql80
+    labels:
+      - "traefik.tcp.routers.mysql80.rule=Host(`mysql80.localhost`)"
+    volumes:
+      - ${VOLUMES_PATH:-./.volumes}/mysql:/var/lib/mysql:delegated
+
+networks:
+  did_traefik:
+    name: did_traefik
+  did_mysql80:
+    name: did_mysql80

@@ -1,0 +1,4 @@
+services:
+  mysql80:
+    platform: linux/amd64
+      
