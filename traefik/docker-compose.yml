@@ -22,8 +22,8 @@ services:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
-      - did_traefik
+      - backend
 
 networks:
-  did_traefik:
-    name: did_traefik
+  backend:
+    name: backend
