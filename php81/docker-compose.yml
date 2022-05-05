@@ -1,13 +1,6 @@
 version: "3.8"
-
+name: did
 services:
   php81:
     build:
       context: .
-    networks:
-      - default
-      - did_traefik
-
-networks:
-  did_traefik:
-    name: did_traefik
