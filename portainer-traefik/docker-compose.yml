@@ -51,3 +51,4 @@ services:
 
 volumes:
   portainer_data:
+    name: portainer_data
