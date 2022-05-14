@@ -6,3 +6,27 @@ services:
     ports:
       - '${MAILHOG_PORT:-1025}:1025'
       - '${MAILHOG_DASHBOARD_PORT:-8025}:8025'
+
+
+
+# version: "3.8"
+
+# services:
+#   mailhog:
+#     image: 'mailhog/mailhog:latest'
+#     labels:
+#       - "traefik.enable=true"
+#       - "traefik.http.routers.mailhog.rule=Host(`mail.${DOMAIN}`)"
+#       - "traefik.http.routers.mailhog.entrypoints=websecure"
+#       - "traefik.http.services.mailhog.loadbalancer.server.port=8025"
+#       - "traefik.http.routers.mailhog.service=mailhog"
+#       - "traefik.http.routers.mailhog.tls.certresolver=leresolver"
+#       - "traefik.http.routers.mailhog.middlewares=mailhog-auth"
+#       - "traefik.http.middlewares.mailhog-auth.digestauth.users=admin:traefik:Use htdigest to generate passwords"
+
+#     networks:
+#       - gateway
+      
+# networks:
+#   gateway:
+#     external: true
