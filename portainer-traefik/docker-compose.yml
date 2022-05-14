@@ -25,6 +25,8 @@ services:
       - "traefik.http.routers.http-catchall.entrypoints=web"
       - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+    networks:
+      - gateway
 
   portainer:
     image: portainer/portainer-ce:2.9.3
@@ -48,8 +50,14 @@ services:
       - "traefik.http.services.edge.loadbalancer.server.port=8000"
       - "traefik.http.routers.edge.service=edge"
       - "traefik.http.routers.edge.tls.certresolver=leresolver"
-
+    networks:
+      - gateway
 
 volumes:
   portainer_data:
     name: portainer_data
+
+networks:
+  gateway:
+    name: gateway
+
