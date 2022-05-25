@@ -8,6 +8,7 @@ services:
     command:
       - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
+      - --api.dashboard=true
       - --providers.docker
       - --log.level=ERROR
       - --certificatesresolvers.leresolver.acme.httpchallenge=true
@@ -29,14 +30,14 @@ services:
 
       # DASHBOARD
       - traefik.enable=true
-      - traefik.http.routers.traefik.rule=Host(`traefik.${DOMAIN}`)
-      - traefik.http.routers.traefik.entrypoints=websecure
-      - traefik.http.routers.traefik.middlewares=auth-middleware
-      - traefik.http.routers.traefik.service=traefik
-      - traefik.http.services.traefik.loadbalancer.server.port=8080
-      - traefik.http.routers.mailhog.middlewares=traefik-auth
-      - traefik.http.middlewares.traefik-auth.basicauth.usersfile=/users_credentials
 
+      - traefik.http.routers.traefik.rule=Host(`traefik.${DOMAIN}`)
+      - traefik.http.routers.traefik.service=api@internal
+      - traefik.http.routers.traefik.entrypoints=websecure
+      - traefik.http.routers.traefik.tls.certresolver=leresolver
+      - traefik.http.routers.traefik.middlewares=traefik-auth
+      - traefik.http.middlewares.traefik-auth.basicauth.usersfile=/users_credentials
+      - traefik.http.services.traefik.loadbalancer.server.port=8080
     networks:
       - gateway
 
