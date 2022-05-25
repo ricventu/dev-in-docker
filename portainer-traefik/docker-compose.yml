@@ -29,15 +29,15 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
 
       # DASHBOARD
-      - traefik.enable=true
+      - "traefik.enable=true"
 
-      - traefik.http.routers.traefik.rule=Host(`traefik.${DOMAIN}`)
-      - traefik.http.routers.traefik.service=api@internal
-      - traefik.http.routers.traefik.entrypoints=websecure
-      - traefik.http.routers.traefik.tls.certresolver=leresolver
-      - traefik.http.routers.traefik.middlewares=traefik-auth
-      - traefik.http.middlewares.traefik-auth.basicauth.usersfile=/users_credentials
-      - traefik.http.services.traefik.loadbalancer.server.port=8080
+      - "traefik.http.routers.dashboard.rule=Host(`dashboard.${DOMAIN}`)"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.entrypoints=websecure"
+      - "traefik.http.routers.dashboard.tls.certresolver=leresolver"
+      - "traefik.http.routers.dashboard.middlewares=dashboard-auth"
+      - "traefik.http.middlewares.dashboard-auth.basicauth.usersfile=/users_credentials"
+      - "traefik.http.services.dashboard.loadbalancer.server.port=8080"
     networks:
       - gateway
 
