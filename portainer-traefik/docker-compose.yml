@@ -36,7 +36,7 @@ services:
       - "traefik.http.routers.dashboard.entrypoints=websecure"
       - "traefik.http.routers.dashboard.tls.certresolver=leresolver"
       - "traefik.http.routers.dashboard.middlewares=dashboard-auth"
-      - "traefik.http.middlewares.dashboard-auth.basicauth.usersfile=/users_credentials"
+      - "traefik.http.middlewares.dashboard-auth.digestauth.usersfile=/users_credentials"
       - "traefik.http.services.dashboard.loadbalancer.server.port=8080"
     networks:
       - gateway
