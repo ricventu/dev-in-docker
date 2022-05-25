@@ -11,7 +11,7 @@ services:
       - --api.dashboard=true
       - --providers.docker
       - --providers.docker.exposedByDefault=false
-      - --traefik.docker.network=gateway
+      - --providers.docker.network=gateway
       - --log.level=ERROR
       - --certificatesresolvers.leresolver.acme.httpchallenge=true
       - --certificatesresolvers.leresolver.acme.email=${EMAIL}
