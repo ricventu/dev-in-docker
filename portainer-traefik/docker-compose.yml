@@ -10,6 +10,7 @@ services:
       - --entrypoints.websecure.address=:443
       - --api.dashboard=true
       - --providers.docker
+      - --providers.docker.exposedByDefault=false
       - --log.level=ERROR
       - --certificatesresolvers.leresolver.acme.httpchallenge=true
       - --certificatesresolvers.leresolver.acme.email=${EMAIL}
