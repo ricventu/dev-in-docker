@@ -1,5 +1,6 @@
-/.idea
-/.env
+.idea
+.vscode
+.env
 /log
 /volumes
 /docker-compose.yml

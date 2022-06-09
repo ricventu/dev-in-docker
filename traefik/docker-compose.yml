@@ -1,29 +1,35 @@
 version: '3'
-# https://doc.traefik.io/traefik/getting-started/quick-start/#launch-traefik-with-the-docker-provider
+
 services:
   traefik:
-    container_name: did_traefik
-    # The official v2 Traefik docker image
-    image: traefik:v2.6
-    # Enables the web UI and tells Traefik to listen to docker
-    command: 
-      - --api.insecure=true 
-      - --providers.docker=true
+    container_name: traefik
+    image: "traefik:latest"
+    restart: unless-stopped
+    command:
+      - --entrypoints.web.address=:80
+      - --api.dashboard=true
+      - --providers.docker
       - --providers.docker.exposedByDefault=false
-    labels:
-      - "traefik.enable=true"
-      - traefik.port=80
+      - --providers.docker.network=gateway
+      - --log.level=ERROR
     ports:
-      # The HTTP port
-      - "${HTTP_PORT:-80}:80"
-      # The Web UI (enabled by --api.insecure=true)
-      - "${UI_PORT:-8080}:8080"
+      - "80:80"
     volumes:
-      # So that Traefik can listen to the Docker events
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    labels:
+      - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
+      - "traefik.http.routers.http-catchall.entrypoints=web"
+
+      # DASHBOARD
+      - "traefik.enable=true"
+
+      - "traefik.http.routers.traefik.rule=Host(`traefik.${DOMAIN:-localhost}`)"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.services.traefik.loadbalancer.server.port=8080"
     networks:
       - gateway
 
 networks:
   gateway:
     name: gateway
+    

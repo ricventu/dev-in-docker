@@ -2,20 +2,21 @@ version: '3.9'
 
 services:
   mysql80:
-    container_name: did_mysql80
+    container_name: mysql80
     image: mysql:8.0
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-root}
     networks:
-      - did_traefik
-      - did_mysql80
-    labels:
-      - "traefik.tcp.routers.mysql80.rule=Host(`mysql80.localhost`)"
+      - mysql80
+      - gateway
     volumes:
-      - ${VOLUMES_PATH:-./.volumes}/mysql:/var/lib/mysql:delegated
+      - ${VOLUMES_PATH:-./volumes}/mysql:/var/lib/mysql:delegated
+    labels:
+      - "traefik.enable=true"
+      - "traefik.tcp.routers.mysql80.rule=Host(`mysql80.${DOMAIN:-localhost}`)"
 
 networks:
-  did_traefik:
-    name: did_traefik
-  did_mysql80:
-    name: did_mysql80
+  mysql80:
+    name: mysql80 
+  gateway:
+    external: true
