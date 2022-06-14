@@ -4,7 +4,7 @@ COMMAND=$1
 shift
 
 case $COMMAND in
-  'traefik'|'mailhog)
+  'traefik'|'mailhog')
     cd "$COMMAND" && make $@
     ;;
   'ssh')
