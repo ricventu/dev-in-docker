@@ -20,7 +20,10 @@ services:
 
     networks:
       - gateway
+      - mailhog
       
 networks:
+  mailhog:
+    name: mailhog
   gateway:
     external: true
