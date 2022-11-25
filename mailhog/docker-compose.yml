@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.9"
 
 services:
   mailhog:
@@ -13,17 +13,17 @@ services:
       - "traefik.http.routers.mailhog.rule=Host(`mailhog.${DOMAIN:-localhost}`)"
       - "traefik.http.routers.mailhog.service=mailhog"
       - "traefik.http.services.mailhog.loadbalancer.server.port=8025"
-      - "traefik.http.routers.mailhog.entrypoints=websecure"
-      - "traefik.http.routers.mailhog.tls.certresolver=leresolver"
-      - "traefik.http.routers.mailhog.middlewares=mailhog-auth"
-      - "traefik.http.middlewares.mailhog-auth.digestauth.users=admin:traefik:Use htdigest to generate passwords"
+      # - "traefik.http.routers.mailhog.entrypoints=websecure"
+      # - "traefik.http.routers.mailhog.tls.certresolver=leresolver"
+      # - "traefik.http.routers.mailhog.middlewares=mailhog-auth"
+      # - "traefik.http.middlewares.mailhog-auth.digestauth.users=admin:traefik:Use htdigest to generate passwords"
 
     networks:
-      - gateway
       - mailhog
+      # - gateway
       
 networks:
   mailhog:
     name: mailhog
-  gateway:
-    external: true
+  # gateway:
+  #   external: true

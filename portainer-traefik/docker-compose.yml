@@ -1,9 +1,9 @@
 version: "3.3"
-# see https://github.com/portainer/portainer-compose.git
+# see https://github.com/portainer/portainer-compose/blob/master/traefik/docker-compose.yml
 services:
   traefik:
     container_name: traefik
-    image: "traefik:latest"
+    image: traefik:v2.9
     restart: unless-stopped
     command:
       - --entrypoints.web.address=:80
@@ -14,7 +14,7 @@ services:
       - --providers.docker.network=gateway
       - --log.level=ERROR
       - --certificatesresolvers.leresolver.acme.httpchallenge=true
-      - --certificatesresolvers.leresolver.acme.email=${EMAIL}
+      #Set your email address here, is for the generation of SSL certificates with Let's Encrypt.       - --certificatesresolvers.leresolver.acme.email=${EMAIL} 
       - --certificatesresolvers.leresolver.acme.storage=./acme.json
       - --certificatesresolvers.leresolver.acme.httpchallenge.entrypoint=web
     ports:

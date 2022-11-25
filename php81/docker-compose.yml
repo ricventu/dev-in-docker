@@ -1,6 +1,17 @@
-version: "3.8"
-name: did
+version: "3.9"
+
 services:
   php81:
-    build:
+    image: dockerbrew:php81
+    build: 
       context: .
+      args:
+        - PHP_INSTALL_MONGODB=${PHP_INSTALL_MONGODB=-false}
+        - PHP_INSTALL_XDEBUG=${PHP_INSTALL_XDEBUG=-true}
+        - PHP_INSTALL_REDIS=${PHP_INSTALL_REDIS=-true}
+    networks:
+      - php81
+
+networks:
+  php81:
+    name: php81

@@ -1,7 +1,5 @@
-.PHONY: build
+.PHONY: up
 
-build:
-	docker-compose build	
+up:
+	docker-compose build
 
-down:
-	docker-compose down

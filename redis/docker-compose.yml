@@ -2,11 +2,18 @@ version: "3.8"
 
 services:
   redis:
-    image: 'redis:alpine'
+    container_name: redis
+    image: 'redis:latest'
     ports:
       - '${REDIS_PORT:-6379}:6379'
     volumes:
       - 'redis:/data'
+    networks:
+      - redis
+      
+networks:
+  redis:
+    name: redis
 
 volumes:
   redis:

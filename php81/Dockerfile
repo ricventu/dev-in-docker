@@ -1,44 +1,46 @@
-FROM php:8.1-cli
-
-WORKDIR /app
+FROM php:8.1-cli-bullseye
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+WORKDIR /app
 
-RUN apt-get update && apt-get install -y \
-    sendmail \
-    libzip-dev unzip \
-    libfreetype6-dev libjpeg62-turbo-dev libpng-dev libwebp-dev \
-    git
+RUN apt update && apt install -y libzip-dev unzip \
+    && docker-php-ext-install zip
 
-RUN docker-php-ext-install pdo pdo_mysql zip \
-    && docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp \
-    && docker-php-ext-install -j$(nproc) gd \
-    && docker-php-ext-install opcache
+RUN apt-get update && apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev libwebp-dev \
+    && docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp  \
+    && docker-php-ext-install -j$(nproc) gd
 
-RUN pecl install -o -f redis \
+RUN docker-php-ext-install \
+    bcmath \
+    pdo_mysql
+
+ARG PHP_INSTALL_REDIS=true
+RUN if [ ${PHP_INSTALL_REDIS} = true ]; then \
+  pecl install -o -f redis \
   && rm -rf /tmp/pear \
-  && docker-php-ext-enable redis
-
-ARG INSTALL_COMPOSER=true
-COPY install-composer.sh  /opt/
-RUN if [ ${INSTALL_COMPOSER} = true ]; then \
-    chmod +x /opt/install-composer.sh && /opt/install-composer.sh \
-    && mv composer.phar /usr/bin/composer \
-    && chmod +x /usr/bin/composer \
+  && docker-php-ext-enable redis \
 ;fi
 
-ARG INSTALL_XDEBUG=false
-RUN if [ ${INSTALL_XDEBUG} = true ]; then \
+ARG PHP_INSTALL_MONGODB=false
+RUN if [ "${PHP_INSTALL_MONGODB}" = "true" ]; then \
+RUN apt update && apt install -y libssl-dev && \
+    pecl install mongodb && \
+    docker-php-ext-enable mongodb \
+;fi
+
+ARG PHP_INSTALL_XDEBUG=true
+COPY xdebug.ini "$PHP_INI_DIR/conf.d/xdebug.ini"
+RUN if [ "${PHP_INSTALL_XDEBUG}" = "true" ]; then \
     pecl install xdebug \
     && sed -e "/^zend_extension/d" \
     && docker-php-ext-enable xdebug \
 ;fi
 
-RUN apt-get -y autoremove \
-    && apt-get clean \
+RUN apt -y autoremove \
+    && apt clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-COPY ./bashrc /root/.bashrc
-RUN echo "export PATH=~/.composer/vendor/bin/:\${PATH}" >> /root/.bashrc
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
