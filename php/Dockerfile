@@ -11,7 +11,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 RUN pear config-set php_ini "$PHP_INI_DIR/php.ini"
 
-RUN apt-get update
+RUN apt-get update --fix-missing
 RUN docker-php-ext-install pdo pdo_mysql
 
 # MONGO DB
