@@ -1,4 +1,4 @@
-.PHONY: up
+.DEFAULT_GOAL := up
 
 config:
 	if [ ! -f ./acme.json ]; then touch ./acme.json && chmod 600 ./acme.json; fi
