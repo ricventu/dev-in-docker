@@ -14,7 +14,8 @@ services:
       - --providers.docker.network=gateway
       - --log.level=ERROR
       - --certificatesresolvers.leresolver.acme.httpchallenge=true
-      #Set your email address here, is for the generation of SSL certificates with Let's Encrypt.       - --certificatesresolvers.leresolver.acme.email=${EMAIL} 
+      #Set your email address here, is for the generation of SSL certificates with Let's Encrypt.
+      - --certificatesresolvers.leresolver.acme.email=${EMAIL} 
       - --certificatesresolvers.leresolver.acme.storage=./acme.json
       - --certificatesresolvers.leresolver.acme.httpchallenge.entrypoint=web
     ports:
@@ -61,12 +62,12 @@ services:
       - "traefik.http.routers.frontend.service=frontend"
       - "traefik.http.routers.frontend.tls.certresolver=leresolver"
 
-      # Edge
-      - "traefik.http.routers.edge.rule=Host(`edge.${DOMAIN:-localhost}`)"
-      - "traefik.http.routers.edge.entrypoints=websecure"
-      - "traefik.http.services.edge.loadbalancer.server.port=8000"
-      - "traefik.http.routers.edge.service=edge"
-      - "traefik.http.routers.edge.tls.certresolver=leresolver"
+      # # Edge
+      # - "traefik.http.routers.edge.rule=Host(`edge.${DOMAIN:-localhost}`)"
+      # - "traefik.http.routers.edge.entrypoints=websecure"
+      # - "traefik.http.services.edge.loadbalancer.server.port=8000"
+      # - "traefik.http.routers.edge.service=edge"
+      # - "traefik.http.routers.edge.tls.certresolver=leresolver"
     networks:
       - gateway
 
