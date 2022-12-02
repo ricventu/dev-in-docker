@@ -1,4 +1,4 @@
-FROM php:8.1-cli-bullseye
+FROM php:8.1.9-cli-bullseye
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -36,6 +36,12 @@ RUN if [ "${PHP_INSTALL_XDEBUG}" = "true" ]; then \
     && sed -e "/^zend_extension/d" \
     && docker-php-ext-enable xdebug \
 ;fi
+
+RUN apt -y update && apt install -y libicu-dev \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl
+
+RUN docker-php-ext-install exif
 
 RUN apt -y autoremove \
     && apt clean \
