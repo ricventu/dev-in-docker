@@ -1,3 +1,8 @@
+This package has been archived.
+
+Some apps has been moved to [ricventu/docker-apps](https://github.com/ricventu/docker-apps)
+
+
 # Dev In Docker
 Simple development environment for [Docker](https://www.docker.com/)
 
